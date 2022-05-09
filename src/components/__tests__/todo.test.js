@@ -1,4 +1,5 @@
 import { render, screen, cleanup } from '@testing-library/react';
+import renderer from 'react-test-renderer';
 import Todo from '../todo';
 
 // jest runs this after every test in this file completes
@@ -38,4 +39,15 @@ test('should render completed todo', () => {
     expect(todoElement).toHaveTextContent('wash car');
     // tests if todoElement has a child with a 's' tag
     expect(todoElement.querySelector('s')).toBeInTheDocument();
+})
+
+test('matches snapshot', () => {
+    const todo = {
+        id: 1,
+        title: 'wash dishes',
+        completed: false,
+    };
+    const tree = renderer.create(<Todo todo={todo} />).toJSON();
+    expect(tree).toMatchSnapshot();
+
 })
